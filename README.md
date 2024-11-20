@@ -128,3 +128,38 @@ Tugas 8
 
     - Fungsi push() menambahkan suatu route ke dalam stack route,  route tersebut masuk ke paling atas stack, sehingga route tersebut akan ditampilkan kepada pengguna.
     - Fungsi pop() menghapus route yang ada di paling atas stack, sehingga halaman tersebut hilang dari layar pengguna dan tampilan pengguna kembali ke route yang berada di bawahnya.
+
+===================================================================
+
+Tugas 9
+
+1. Jelaskan mengapa kita perlu membuat model untuk melakukan pengambilan ataupun pengiriman data JSON? Apakah akan terjadi error jika kita tidak membuat model terlebih dahulu?
+    Model sangat penting untuk memastikan struktur data yang dikirim dan diterima sesuai dengan format yang diharapkan. Jika tidak ada model, data yang tidak sesuai struktur dapat menyebabkan error saat proses parsing, seperti tipe data yang tidak sesuai atau properti yang hilang. Jika tidak ada model, pengelolaan data akan menjadi lebih sulit, rentan terhadap bug, dan sulit untuk di-debug.
+
+2. Jelaskan fungsi dari library http yang sudah kamu implementasikan pada tugas ini
+    Library HTTP Flutter membantu aplikasi Flutter berkomunikasi dengan server. Dengan menggunakan library http, aplikasi dapat mengirim permintaan (request) ke server seperti GET, POST, PUT, atau DELETE dan menerima respons (response) dari server. Ini membantu untuk menjalankan fungsi seperti pengambilan data, pengiriman data JSON, dan autentikasi.
+
+3. Jelaskan fungsi dari CookieRequest dan jelaskan mengapa instance CookieRequest perlu untuk dibagikan ke semua komponen di aplikasi Flutter.
+    Instance CookieRequest harus dibagikan ke semua komponen aplikasi Flutter agar state autentikasi seperti token atau session ID yang tersimpan di cookie dapat diakses oleh semua komponen. Ini memungkinkan cookie yang digunakan untuk menjaga sesi pengguna dalam aplikasi Flutter.
+
+4. Jelaskan mekanisme pengiriman data mulai dari input hingga dapat ditampilkan pada Flutter.
+    Dalam Flutter, pengiriman data dimulai ketika pengguna memasukkan data melalui aplikasi. Kemudian data diformat menjadi JSON dan dikirim ke server melalui permintaan HTTP, seperti POST. Data diproses oleh server, disimpan atau diubah sesuai dengan logika bisnis, kemudian dikembalikan sebagai status atau data yang diperbarui. Aplikasi Flutter menerima respons JSON ini, mengkodekannya, dan menampilkannya kembali kepada pengguna dalam antarmuka yang sesuai.
+
+5. Jelaskan mekanisme autentikasi dari login, register, hingga logout. Mulai dari input data akun pada Flutter ke Django hingga selesainya proses autentikasi oleh Django dan tampilnya menu pada Flutter.
+    Mekanisme autentikasi dimulai dengan data login atau registrasi pengguna Flutter yang dikirim ke endpoint Django melalui permintaan HTTP POST. Setelah data divalidasi, Django mengembalikan token autentikasi atau session ID yang disimpan di CookieRequest di aplikasi Flutter. Saat Flutter logout, server mengirimkan permintaan untuk menghapus sesi. Selama sesi, token atau cookie ini memungkinkan pengguna mengakses menu dan fitur yang sesuai dengan status autentikasi mereka.
+
+6. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step! (bukan hanya sekadar mengikuti tutorial). 
+- Mengimplementasikan fitur registrasi akun pada proyek tugas Flutter.
+    Setelah mengimplementasikan autentikasi di proyek django, termasuk fungsi registrasi, buat register.dart berisi halaman registrasi dan menghubungkan dengan fungsi registrasi di django. setelah itu saya menghubungkan halaman tersebut dengan login.dart.
+
+- Membuat halaman login pada proyek tugas Flutter.
+    saya melakukan ini dengan membuat login.datrt di screens, dan membuat halaman loginPage disana. setelah itu hubungkan halaman tersebut dengan halaman utama dan jadikan sebagai home agar halamn yang pertama kali dibuka saat mengakses aplikasi adalah halaman login.
+
+- Mengintegrasikan sistem autentikasi Django dengan proyek tugas Flutter.
+    setelah membuat aplikasi dan fungsi-fungsi autentikasi di proyek django, saya mengimport beberapa package yang diperlukan seperti provider dan pbp_django_auth. Kemudian saya memodifikasi root widget pada berkas-berkas yang diperlukan agar menyediakan CookieRequest library ke semua child widgets dengan menggunakan Provider, juga menambahkan import yang sesuai. 
+
+- Membuat model kustom sesuai dengan proyek aplikasi Django.
+    Saya melakukan ini dengan memakai Quicktype yang membuat model dengan bahasa dart menggunakan informasi dari json. kode dari quicktype kemudian saya masukkan ke berkas Product.dart yang saya simpan di lib/models/ sebagai tempat model.
+
+- Membuat halaman yang berisi daftar semua item yang terdapat pada endpoint JSON di Django yang telah kamu deploy. Tampilkan name, price, dan description dari masing-masing item pada halaman ini.
+    Pertama-tama, saya menambahkan <uses-permission android:name="android.permission.INTERNET" /> pada AndroidManifest.xml agar aplikasi bisa melakukan fetch data dari internet. kemudian saya membuat list_product.dart dalam lib/screens/ yang akan menampilkan halaman list produk. Di dalamnya saya melakukan fetch Product dan mengkonversi data json menjadi objek Produk. saya menghubungkan halaman tersebut dengan product_card.dart dan left drawer agar dapat dilihat.
